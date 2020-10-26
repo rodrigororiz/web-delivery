@@ -1,0 +1,239 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <title> JAF Apss</title>
+    <link rel="icon" type="image/png" href="imagem/imagem.png">
+    <!---CSS-->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <!--Bootstrap-->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+    <!--Fontawsome-->
+    <script src="https://use.fontawesome.com/releases/v5.13.1/js/all.js" data-auto-add-css="false"></script>
+    <link href="https://use.fontawesome.com/releases/v5.13.1/css/svg-with-js.css" rel="stylesheet" />
+    <!--Google Fonts-->
+    <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet">
+
+    <!-- Compactar imagem -->
+
+    <script src="http://compressjs.herokuapp.com/compress.js"></script>
+
+    <!-- Firebase -->
+
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-firestore.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
+
+    <script src="js/logado.js"></script>
+    
+</head>
+
+<body>
+    <!--Div Principal-->
+    <div class="wrapper">
+        <!--Menu lateral esquerda-->
+        <nav id="sidebar">
+            <div class="sidebar-header">
+                <h3 class="fontGoogleLobster">Menu</h3>
+                <strong>M</strong>
+            </div>
+            <!--Home-->
+            <ul class="list-unstyled components">
+                <li class="treeview">
+                    <a href="pedido.html" aria-activedescendant="false" class="dropdown-toggle">
+                        <i class="fas fa-home"></i>
+                        Home
+                    </a>
+                </li>
+                <!--Categoria-->
+                <li class="treeview">
+                    <a href="#categoriaSubmenu" data-toggle="collapse" aria-activedescendant="false"
+                        class="dropdown-toggle">
+                        <i class="fas fa-folder-open"></i>
+                        Categoria
+                    </a>
+                    <ul class="collapse list-unstyled" id="categoriaSubmenu">
+                        <li>
+                            <a href="categoria.html">Add Categoria</a>
+                        </li>
+                    </ul>
+                </li>
+                <!--Adicional-->
+                <li class="treeview">
+                    <a href="#adicionalSubmenu" data-toggle="collapse" aria-activedescendant="false"
+                        class="dropdown-toggle">
+                        <i class="fas fa-bacon"></i>
+                        Adicional
+                    </a>
+                    <ul class="collapse list-unstyled" id="adicionalSubmenu">
+                        <li>
+                            <a href="adicional.html">Add Adicional</a>
+                        </li>
+                    </ul>
+                </li>
+                <!--Lanche-->
+                <li class="treeview">
+                    <a href="#lancheSubmenu" data-toggle="collapse" aria-activedescendant="false"
+                        class="dropdown-toggle">
+                        <i class="fas fa-hamburger"></i>
+                        Lanche
+                    </a>
+                    <ul class="collapse list-unstyled" id="lancheSubmenu">
+                        <li>
+                            <a href="produto.html">Add Lanche</a>
+                        </li>
+                    </ul>
+                </li>
+                <!--App-->
+                <li class="treeview active">
+                    <a href="#appSubmenu" data-toggle="collapse" aria-activedescendant="false" class="dropdown-toggle">
+                        <i class="fas fa-mobile-alt"></i>
+                        App
+                    </a>
+                    <ul class="collapse show" id="appSubmenu">
+                        <li>
+                            <a href="homeapp.html">Home App</a>
+                        </li>
+                        <li>
+                            <a href="notificacao.html">Notificação</a>
+                        </li>
+                    </ul>
+                </li>
+                <!--Suporte-->
+                <li class="treeview">
+                    <a href="#suporteSubmenu" data-toggle="collapse" aria-activedescendant="false"
+                        class="dropdown-toggle">
+                        <i class="fas fa-question"></i>
+                        Suporte
+                    </a>
+                    <ul class="collapse list-unstyled" id="suporteSubmenu">
+                        <li>
+                            <a href="https://www.google.com" target="_blank">Site</a>
+                        </li>
+                    </ul>
+                </li>
+                <!--Deslogar-->
+                <li class="treeview">
+                    <a href="#deslogarSubmenu" data-toggle="collapse" aria-activedescendant="false"
+                        class="dropdown-toggle">
+                        <i class="fas fa-times"></i>
+                        Logout
+                    </a>
+                    <ul class="collapse list-unstyled" id="deslogarSubmenu">
+                        <li>
+                            <a href="#" onclick="deslogar()">Deslogar</a>                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+        </nav>
+        <!--parte central pagina-->
+        <div id="content">
+            <!--Parte superior-->
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="container-fluid">
+                    <button type="button" id="sidebarCollapse" class="btn btn-info">
+                        <i class="fas fa-align-left"></i>
+                    </button>
+                    <div class="form-group">
+                        <p style="font-family: 'Lobster'; font-size: 35px; color: #448ed3"> Notificações</p>
+                    </div>
+                    <br>
+                </div>
+            </nav>
+            <div class="navbar navbar-expand-lg navbar-light bg-light">
+                <div class="wrap" style="margin: 0 auto; float: center;">
+                    <div class="mx-auto d-block" style="width: 400;">
+                        <h4 style="font-size: 20px; color: #448ed3">Enviar notificaçãoo para todos os Usuários</h4><br>
+                    </div>
+                    <div class="form-group">
+                        <label for="tituloNotificacao"><span class="glyphicon glyphicon-eye-open">Título Notificação:</span></label>
+                        <input type="text" class="form-control" id="tituloNotificacao" />
+                    </div>
+                    <div class="form-group">
+                        <label for="mensagemNotificacao"><span class="glyphicon glyphicon-eye-open">Mensagem Notificação:</span></label>
+                        <input type="text" class="form-control" id="mensagemNotificacao" />
+                    </div>
+
+                    <button onclick="validarCamposNotificacao()" type="submit" class="btn btn-success btn-block" width="250">Enviar notificação</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--Modal-->
+    <div>
+            <!--Modal Alerta-->
+            <div class="modal fade" id="modalAlerta" style="overflow-y:scroll" role="dialog">
+
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-------Cabeçalho-------->
+                        <div class="modal-header" style="padding: 35px 50px;">
+                            <h4 style="color: #448ed3;"> Alerta</h4>
+                        </div>
+
+                        <!-------Corpo-------->
+
+                        <div class="modal-body" style="padding: 40px 50px;">
+
+                            <label id="alertaMensagem">Erro ao tentar abrir</label>
+                        </div>
+
+                        <!-------Rodapé-------->
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" data-dismiss="modal">
+                                Ok
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <!--Modal ProgressBar-->
+            <div class="modal fade" id="modalProgress" tabindex="-1" role="dialog">
+
+                <div class="modal-dialog modal-center" style="top: 50%; transform: translateY(-50%);">
+
+                    
+                    <div class="d-flex justify-content-center">
+
+                        <div class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status">
+                            <span class="sr-only">Loading...</span>
+                          </div>
+
+                      </div>
+                    
+                </div>
+            </div>
+            <script
+                src="js/notificacao.js"></script>
+            <script>
+
+                $(document).ready(function () {
+                    $('#sidebarCollapse').on('click', function () {
+                        $('#sidebar').toggleClass('active');
+                    })
+                })
+
+                
+            </script>
+</body>
+
+</html>
