@@ -49,20 +49,17 @@ function confirmarAdmin() {
     firebase.firestore().collection("web").doc("admin").get().then(function(doc) {
 
         removerModalProgress()
-
-        const uid = doc.data().uid
-        const uidAdmin = firebase.auth().currentUser.uid//pegando o uid da pessoa que esta logando
-
-        if(uid == uidAdmin) {
-            
+        
             window.location.href = "pedido.html"
 
-        } else {
+        
+    }).catch(function(error) {
 
-            firebase.auth().signOut()
-            errorFirebase("não é admin")
+        removerModalProgress()
+        firebase.auth().signOut()
 
-        }
+        const errorMessage = error.message;
+        errorFirebase(errorMessage)
     })
 }
 
@@ -81,7 +78,7 @@ function errorFirebase(error) {
 
         abrirModalAlerta("Este email não é um email válido.")
 
-    } else if(error.includes("não é admin")){
+    } else if(error.includes("insufficient permissions")){
 
         abrirModalAlerta("Usuário não autorizado.")
     } else {
