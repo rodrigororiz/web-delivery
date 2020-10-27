@@ -1,15 +1,4 @@
-const firebaseConfig = {
-  apiKey: "AIzaSyAg0WswFD46t-CKooLnGyD46BIkL9NfZ5U",
-  authDomain: "projeto-teste-26c88.firebaseapp.com",
-  databaseURL: "https://projeto-teste-26c88.firebaseio.com",
-  projectId: "projeto-teste-26c88",
-  storageBucket: "projeto-teste-26c88.appspot.com",
-  messagingSenderId: "374511580608",
-  appId: "1:374511580608:web:5b049eefe2c3b130344425",
-  measurementId: "G-QZRKVSRYVX",
-};
 
-firebase.initializeApp(firebaseConfig);
 
 let imagemSelecionada;
 let categoriaSelecionadaAlterar;
@@ -87,13 +76,30 @@ function criarItensTabala(dados) {
   const linha = tabela.insertRow();
   const colunaId = linha.insertCell(0);
   const colunaNome = linha.insertCell(1);
-  const colunaAcoes = linha.insertCell(2);
+  const colunaExibir = linha.insertCell(2);
+  const colunaAcoes = linha.insertCell(3);
 
   const itemId = document.createTextNode(dados.id);
   const itemNome = document.createTextNode(dados.nome);
 
   colunaId.appendChild(itemId);
   colunaNome.appendChild(itemNome);
+
+  let valor = ""
+
+  if(dados.exibir_categoria) {
+
+    valor = "checked"
+  }
+
+  const checkBoxDiv = document.createElement("div");
+  checkBoxDiv.innerHTML = `<input class="form-check-input" onclick="exibirCategoriaNoApp(${dados.id})" type="checkbox" value="" id="checkBox${dados.id}" ${valor}>
+  <label class="form-check-label" for="checkBox${dados.id}"></label>`
+
+  checkBoxDiv.className = "form-check"
+  checkBoxDiv.style = "display:block; margin-left: 45%; margin-top:5%"
+
+  colunaExibir.appendChild(checkBoxDiv)
 
   criarBotoesTabela(colunaAcoes, dados);
   ordemCrescente();
@@ -106,14 +112,33 @@ function alterarItensTabela(dados) {
   const row = tabela.rows[index];
   const cellId = row.cells[0];
   const cellNome = row.cells[1];
+  const cellExibir = row.cells[2]
+  const acoes = row.cells[3];
 
-  const acoes = row.cells[2];
   acoes.remove();
+  cellExibir.remove();
 
-  const colunaAcoes = row.insertCell(2);
+  const colunaExibir = row.insertCell(2)
+  const colunaAcoes = row.insertCell(3);
 
   cellId.innerText = dados.id;
   cellNome.innerText = dados.nome;
+
+  let valor = ""
+
+  if(dados.exibir_categoria) {
+
+    valor = "checked"
+  }
+
+  const checkBoxDiv = document.createElement("div");
+  checkBoxDiv.innerHTML = `<input class="form-check-input" onclick="exibirCategoriaNoApp(${dados.id})" type="checkbox" value="" id="checkBox${dados.id}" ${valor}>
+  <label class="form-check-label" for="checkBox${dados.id}"></label>`
+
+  checkBoxDiv.className = "form-check"
+  checkBoxDiv.style = "display:block; margin-left: 45%; margin-top:5%"
+
+  colunaExibir.appendChild(checkBoxDiv)
 
   criarBotoesTabela(colunaAcoes, dados);
 }
@@ -152,6 +177,32 @@ function criarBotoesTabela(colunaAcoes, dados) {
   colunaAcoes.appendChild(document.createTextNode(" "));
   colunaAcoes.appendChild(buttonRemover);
 }
+
+function exibirCategoriaNoApp(id) {
+
+  abrirModalProgress();
+
+  let checkbox = document.getElementById("checkBox" + id);
+  let dados = {
+
+    exibir_categoria: checkbox.checked
+  }
+
+  bd.doc(id+"").update(dados).then(function() {
+
+    removerModalProgress();
+    abrirModalAlerta("Sucesso ao alterar Dados")
+
+  }).catch(function(error) {
+
+    removerModalProgress();
+    abrirModalAlerta("Erro ao alterar dados: " + error)
+  })
+}
+
+
+
+
 
 //Tratamento com Imagens
 
@@ -277,6 +328,7 @@ function salvarDadosFirebase(id, nome, url_imagem) {
   const dados = {
     id: id,
     nome: nome,
+    exibir_categoria: false,
     url_imagem: url_imagem,
   };
 
@@ -487,6 +539,16 @@ function removerModalProgress() {
     document.getElementById("modalProgress").click();
   }, 500);
 }
+
+//Proximo campo com enter
+function proximoInput(id, evento) {
+
+  if(evento.keyCode == 13) {
+      document.getElementById(id). focus()
+  }
+}
+
+
 
 //Funções da tabela
 

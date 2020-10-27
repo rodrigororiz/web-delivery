@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -28,10 +29,13 @@
 
         <!-- Firebase -->
 
-        <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-firestore.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
+        <script src="/__/firebase/7.24.0/firebase-app.js"></script>
+        <script src="/__/firebase/7.24.0/firebase-analytics.js"></script>
+        <script src="/__/firebase/7.24.0/firebase-firestore.js"></script>
+        <script src="/__/firebase/7.24.0/firebase-auth.js"></script>
+        <script src="/__/firebase/7.24.0/firebase-storage.js"></script>
+
+        <script src="/__/firebase/init.js"></script>
     </head>
 
         <!--Login-->
@@ -45,13 +49,17 @@
 
             <div>
 
-                <input style="font-family: 'Lato';" type="email" placeholder="E-mail" id="email">
+                <input style="font-family: 'Lato';" type="email" placeholder="E-mail" id="email" onkeydown="proximoInput('senha', event)">
 
                 <div class="bar">
                     <i></i>
                 </div>
 
-                <input style="font-family: 'Lato';" type="password" placeholder="Senha" id="senha">
+                <div class="row" style="width:230px; margin-left: 7px">
+                    <input style="font-family: 'Lato';" type="password" placeholder="Senha" id="senha" onkeydown="proximoInput('buttonEntrar', event)">
+                    <i class="fas fa-eye" style="align-self: center;" onclick="revelarSenha()" id="imagemRevelarSenha"></i> 
+                </div>
+
 
                 <div class="bar">
                     <i></i>
@@ -59,7 +67,7 @@
 
                 <br><br>
 
-                <button style="background: rgb(1,177,10); color: #fff" onclick="login()">Entrar</button>
+                <button style="background: rgb(1,177,10); color: #fff" id="buttonEntrar" onclick="login()">Entrar</button>
 
             </div>
             
@@ -98,13 +106,13 @@
         <!--Modal ProgressBar-->
         <div class="modal fade" id="modalProgress" tabindex="-1" role="dialog">
 
-            <div class="modal-dialog modal-center" style="top: 50%; transform: translateY(-50%);">
+            <div class="modal-dialog modal-center modal-centralizar" >
 
                 
                 <div class="d-flex justify-content-center">
 
-                    <div class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status">
-                        <span class="sr-only">Loading...</span>
+                    <div class="loader" role="status">
+                        
                       </div>
 
                   </div>

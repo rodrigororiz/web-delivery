@@ -1,15 +1,4 @@
-const firebaseConfig = {
-    apiKey: "AIzaSyAg0WswFD46t-CKooLnGyD46BIkL9NfZ5U",
-    authDomain: "projeto-teste-26c88.firebaseapp.com",
-    databaseURL: "https://projeto-teste-26c88.firebaseio.com",
-    projectId: "projeto-teste-26c88",
-    storageBucket: "projeto-teste-26c88.appspot.com",
-    messagingSenderId: "374511580608",
-    appId: "1:374511580608:web:5b049eefe2c3b130344425",
-    measurementId: "G-QZRKVSRYVX"
-};
 
-firebase.initializeApp(firebaseConfig)
 
 
 function login() {
@@ -87,6 +76,33 @@ function errorFirebase(error) {
 
     }
 }
+
+//revelar e ocultar senha
+function revelarSenha() {
+
+    const senha = document.getElementById("senha")
+    const imagemRevelarSenha = document.getElementById("imagemRevelarSenha")
+
+    if(senha.type == "password") {
+
+        senha.type = "text"
+        imagemRevelarSenha.setAttribute("class","fas fa-eye-slash")
+    } else {
+        senha.type = "password"
+        imagemRevelarSenha.setAttribute("class","fas fa-eye")
+    }
+}
+
+
+//Proximo campo com enter
+function proximoInput(id, evento) {
+
+    if(evento.keyCode == 13) {
+        document.getElementById(id). focus()
+    }
+}
+
+
 
 //Modal de Alerta
 

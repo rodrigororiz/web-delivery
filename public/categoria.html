@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -32,18 +33,16 @@
 
     <!-- Firebase -->
 
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+    <script src="/__/firebase/7.24.0/firebase-app.js"></script>
+    <script src="/__/firebase/7.24.0/firebase-analytics.js"></script>
+    <script src="/__/firebase/7.24.0/firebase-firestore.js"></script>
+    <script src="/__/firebase/7.24.0/firebase-auth.js"></script>
+    <script src="/__/firebase/7.24.0/firebase-storage.js"></script>
 
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
-
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-firestore.js"></script>
-
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
-
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-storage.js"></script>
+    <script src="/__/firebase/init.js"></script>
 
     <script src="js/logado.js"></script>
-    
+
 </head>
 
 <body>
@@ -139,7 +138,7 @@
                     </a>
                     <ul class="collapse list-unstyled" id="deslogarSubmenu">
                         <li>
-                            <a href="#" onclick="deslogar()">Deslogar</a>                        </li>
+                            <a href="#" onclick="deslogar()">Deslogar</a> </li>
                     </ul>
                 </li>
             </ul>
@@ -192,15 +191,17 @@
                     <!--cabeçalho tabela-->
                     <thead>
                         <tr>
-                            <th class="th-sm" onclick="ordenarId()">ID<i style="float:right" class="fas fa-sort"></i></th>
+                            <th class="th-sm" onclick="ordenarId()">ID<i style="float:right" class="fas fa-sort"></i>
+                            </th>
                             <th class="th-sm">Nome</th>
+                            <th class="th-sm">Exibir</th>
                             <th class="th-sm">Ações</th>
                         </tr>
                     </thead>
 
                     <tbody>
                         <!--Conteudo da table-->
-                        
+
                     </tbody>
                 </table>
                 <!--paginação-->
@@ -219,7 +220,7 @@
         <!--Modal Adicionar-->
         <div class="modal fade" id="modalAdicionar" style="overflow-y:scroll" data-backdrop="static" role="dialog">
 
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <!--Cabeçalho-->
                     <div class="modal-header" style="padding: 35px 50px;">
@@ -227,29 +228,140 @@
                     </div>
                     <!--Corpo-->
                     <div class="modal-body" style="padding: 40px 50px;">
-                        <div class="form-group">
-                            <label for="adicionarId"><span class="glyphicon glyphicon-eye-open">ID:</span></label>
-                            <input type="number" class="form-control" id="adicionarId" />
-                        </div>
-                        <div class="form-group">
-                            <label for="adicionarNome"><span class="glyphicon glyphicon-eye-open">Nome:</span></label>
-                            <input type="text" class="form-control" id="adicionarNome" />
-                        </div>
-                        <label>
-                            <span>Imagem:</span>
-                            <input type="file" class="upload-group" id="imagemUploadAdicionar">
-                        </label>
-                        <br>
-                        <img class="razer" id="imagemAdicionar" width="100" height="100"
-                            onclick="clickAdicionarImagem()">
-                        <br><br>
-                        <button type="button" class="btn btn-success btn-block"
-                            onclick="buttonAdicionarValidarCampos()">
-                            Salvar
-                        </button>
+                        <form>
+                            <div class="form-row">
+
+                                <div class="form-group col-md-2">
+                                    <label for="adicionarId"><span
+                                            class="glyphicon glyphicon-eye-open">ID:</span></label>
+                                    <input type="number" class="form-control" id="adicionarId"
+                                        onkeydown="proximoInput('adicionarNome', event)" />
+                                </div>
+                                <div class="form-group col-md-10">
+                                    <label for="adicionarNome"><span
+                                            class="glyphicon glyphicon-eye-open">Nome:</span></label>
+                                    <input type="text" class="form-control" id="adicionarNome"
+                                        onkeydown="proximoInput('buttonAdicionar', event)" />
+                                </div>
+                                <div class="form-group col-md-12">
+                                    <label>
+                                        <span>Imagem:</span>
+                                        <input type="file" class="upload-group" id="imagemUploadAdicionar">
+                                    </label>
+                                    <br>
+                                    <img class="razer" id="imagemAdicionar" width="100" height="100"
+                                        onclick="clickAdicionarImagem()">
+                                    <br>
+                                </div>
+                                <div class="form-group col-md-9">
+                                    <button type="button" id="buttonAdicionar" class="btn btn-success btn-block"
+                                        onclick="buttonAdicionarValidarCampos()">
+                                        Salvar
+                                    </button>
+
+                                </div>
+
+                                <div class="form-group col-md-3">
+                                    <button type="button" class="btn btn-danger btn-block" data-dismiss="modal"
+                                        onclick="limparCamposAdicionar()">
+                                        Cancel
+                                    </button>
+
+                                </div>
+                            </div>
+                        </form>
+
                         <!--Rodapé-->
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="limparCamposAdicionar()" >
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!--Modal Alterar-->
+        <div class="modal fade" id="modalAlterar" style="overflow-y:scroll" data-backdrop="static" role="dialog">
+
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding: 35px 50px;">
+                        <h4 style="color: #448ed3;"> Alterar Categoria</h4>
+                    </div>
+
+                    <!-----Corpo----->
+
+                    <div class="modal-body" style="padding: 40px 50px;">
+
+                        <form>
+                            <div class="form-row">
+
+                                <div class="form-group col-md-2">
+                                    <label for="alterarId"><span class="glyphicon glyphicon-eye-open">ID:</span></label>
+                                    <label type="text" id="alterarId"></label>
+                                </div>
+                                <div class="form-group col-md-10">
+                                    <label for="alterarNome"><span
+                                            class="glyphicon glyphicon-eye-open">Nome:</span></label>
+                                    <input type="text" class="form-control" id="alterarNome" />
+                                </div>
+
+                                <div class="form-group col-md-12">
+                                    <label>
+                                        <span>Imagem:</span>
+                                        <input type="file" class="upload-group" id="imagemUploadAlterar">
+                                    </label>
+                                    <br>
+                                    <img class="razer" id="imagemAlterar" width="100" height="100"
+                                        onclick="clickAlterarImagem()">
+                                    <br>
+                                </div>
+
+                                <div class="form-group col-md-9">
+                                    <button type="button" class="btn btn-success btn-block"
+                                        onclick="buttonAlterarValidarCampos()">
+                                        Salvar
+                                    </button>
+
+                                </div>
+                                <div class="form-group col-md-3">
+                                    <button type="button" class="btn btn-danger btn-block" data-dismiss="modal"
+                                        onclick="limparCamposAlterar()">
+                                        Cancel
+                                    </button>
+
+                                </div>
+
+                            </div>
+                        </form>
+
+
+                        <div class="modal-footer">
+
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--Modal Remover-->
+        <div class="modal fade" id="modalRemover" style="overflow-y:scroll" data-backdrop="static" role="dialog">
+
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header" style="padding: 35px 50px;">
+                        <h4 style="color: #448ed3;"> Remover Categoria</h4>
+                    </div>
+                    <div class="modal-body" style="padding: 40px 50px;">
+
+                        Deseja realmente remove este item?
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary" onclick="removerCategoria()">
+                                Sim
+                            </button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">
                                 Cancel
                             </button>
                         </div>
@@ -258,133 +370,64 @@
 
             </div>
         </div>
+        <!--Modal Alerta-->
+        <div class="modal fade" id="modalAlerta" style="overflow-y:scroll" role="dialog">
 
-            <!--Modal Alterar-->
-            <div class="modal fade" id="modalAlterar" style="overflow-y:scroll" data-backdrop="static" role="dialog">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <!-------Cabeçalho-------->
+                    <div class="modal-header" style="padding: 35px 50px;">
+                        <h4 style="color: #448ed3;"> Alerta</h4>
+                    </div>
 
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header" style="padding: 35px 50px;">
-                            <h4 style="color: #448ed3;"> Alterar Categoria</h4>
-                        </div>
+                    <!-------Corpo-------->
 
-                        <!-----Corpo----->
+                    <div class="modal-body" style="padding: 40px 50px;">
 
-                        <div class="modal-body" style="padding: 40px 50px;">
-                            <div class="form-group">
-                                <label for="alterarId"><span class="glyphicon glyphicon-eye-open">ID:</span></label>
-                                <label type="text" id="alterarId"></label>
-                            </div>
-                            <div class="form-group">
-                                <label for="alterarNome"><span class="glyphicon glyphicon-eye-open">Nome:</span></label>
-                                <input type="text" class="form-control" id="alterarNome" />
-                            </div>
-                            <label>
-                                <span>Imagem:</span>
-                                <input type="file" class="upload-group" id="imagemUploadAlterar">
-                            </label>
-                            <br>
-                            <img class="razer" id="imagemAlterar" width="100" height="100"
-                                onclick="clickAlterarImagem()">
-                            <br><br>
-                            <button type="button" class="btn btn-success btn-block"
-                                onclick="buttonAlterarValidarCampos()">
-                                Salvar
-                            </button>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="limparCamposAlterar()">
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
+                        <label id="alertaMensagem">Erro ao tentar abrir</label>
+                    </div>
+
+                    <!-------Rodapé-------->
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">
+                            Ok
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <!--Modal ProgressBar-->
+        <div class="modal fade" id="modalProgress" tabindex="-1" role="dialog">
+
+            <div class="modal-dialog modal-center" style="top: 50%; transform: translateY(-50%);">
+
+
+                <div class="d-flex justify-content-center">
+
+                    <div class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status">
+                        <span class="sr-only">Loading...</span>
                     </div>
 
                 </div>
+
             </div>
-            <!--Modal Remover-->
-            <div class="modal fade" id="modalRemover" style="overflow-y:scroll" data-backdrop="static" role="dialog">
+        </div>
+        <script src="js/categoria.js"></script>
+        <script>
 
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header" style="padding: 35px 50px;">
-                            <h4 style="color: #448ed3;"> Remover Categoria</h4>
-                        </div>
-                        <div class="modal-body" style="padding: 40px 50px;">
-
-                            Deseja realmente remove este item?
-
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-primary" onclick="removerCategoria()">
-                                    Sim
-                                </button>
-                                <button type="button" class="btn btn-default" data-dismiss="modal">
-                                    Cancel
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <!--Modal Alerta-->
-            <div class="modal fade" id="modalAlerta" style="overflow-y:scroll" role="dialog">
-
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <!-------Cabeçalho-------->
-                        <div class="modal-header" style="padding: 35px 50px;">
-                            <h4 style="color: #448ed3;"> Alerta</h4>
-                        </div>
-
-                        <!-------Corpo-------->
-
-                        <div class="modal-body" style="padding: 40px 50px;">
-
-                            <label id="alertaMensagem">Erro ao tentar abrir</label>
-                        </div>
-
-                        <!-------Rodapé-------->
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">
-                                Ok
-                            </button>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-            <!--Modal ProgressBar-->
-            <div class="modal fade" id="modalProgress" tabindex="-1" role="dialog">
-
-                <div class="modal-dialog modal-center" style="top: 50%; transform: translateY(-50%);">
-
-                    
-                    <div class="d-flex justify-content-center">
-
-                        <div class="spinner-border text-primary" style="width: 5rem; height: 5rem;" role="status">
-                            <span class="sr-only">Loading...</span>
-                          </div>
-
-                      </div>
-                    
-                </div>
-            </div>
-            <script
-                src="js/categoria.js"></script>
-            <script>
-
-                $(document).ready(function () {
-                    $('#sidebarCollapse').on('click', function () {
-                        $('#sidebar').toggleClass('active');
-                    })
+            $(document).ready(function () {
+                $('#sidebarCollapse').on('click', function () {
+                    $('#sidebar').toggleClass('active');
                 })
+            })
 
-                $("#imagemUploadAdicionar").hide()
-                $("#imagemUploadAlterar").hide()
+            $("#imagemUploadAdicionar").hide()
+            $("#imagemUploadAlterar").hide()
 
-                
-            </script>
+
+        </script>
 </body>
 
 </html>

@@ -1,15 +1,4 @@
-const firebaseConfig = {
-    apiKey: "AIzaSyAg0WswFD46t-CKooLnGyD46BIkL9NfZ5U",
-    authDomain: "projeto-teste-26c88.firebaseapp.com",
-    databaseURL: "https://projeto-teste-26c88.firebaseio.com",
-    projectId: "projeto-teste-26c88",
-    storageBucket: "projeto-teste-26c88.appspot.com",
-    messagingSenderId: "374511580608",
-    appId: "1:374511580608:web:5b049eefe2c3b130344425",
-    measurementId: "G-QZRKVSRYVX"
-};
 
-firebase.initializeApp(firebaseConfig)
 
 let imagemSelecionada1;
 let imagemSelecionada2;

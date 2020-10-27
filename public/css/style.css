@@ -79,8 +79,8 @@ span {
 }
 
 #sidebar {
-    min-width: 250px;
-    max-width: 250px;
+    min-width: 200px;
+    max-width: 200px;
     background: #7386D5;
     color: #fff;
     transition: all 0.3s;
@@ -90,6 +90,11 @@ span {
     min-width: 80px;
     max-width: 80px;
     text-align: center;
+}
+
+#sidebar.active .components span{
+    display: block;
+    display: none;
 }
 
 #sidebar.active .sidebar-header h3,
@@ -156,6 +161,7 @@ span {
 #sidebar ul li a:hover {
     color: #7386D5;
     background: #fff;
+    font-size: 0.9em;/*efeito de diminuir a letra dos itens de menu qdo passao mouse por cima*/
 }
 
 #sidebar ul li a i {
@@ -229,7 +235,7 @@ a.article:hover {
         min-width: 80px;
         max-width: 80px;
         text-align: center;
-        margin-left: -80px !important;
+        margin-left: -150px !important;
     }
     .dropdown-toggle::after {
         top: auto;

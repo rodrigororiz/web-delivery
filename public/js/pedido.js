@@ -1,30 +1,29 @@
-const firebaseConfig = {
-    apiKey: "AIzaSyAg0WswFD46t-CKooLnGyD46BIkL9NfZ5U",
-    authDomain: "projeto-teste-26c88.firebaseapp.com",
-    databaseURL: "https://projeto-teste-26c88.firebaseio.com",
-    projectId: "projeto-teste-26c88",
-    storageBucket: "projeto-teste-26c88.appspot.com",
-    messagingSenderId: "374511580608",
-    appId: "1:374511580608:web:5b049eefe2c3b130344425",
-    measurementId: "G-QZRKVSRYVX",
-};
-  
-  firebase.initializeApp(firebaseConfig);
 
   let tabela = document
   .getElementById("tabelaPedido")
   .getElementsByTagName("tbody")[0];
 
   let bd = firebase.firestore().collection("pedidos");
+  let bdEstadoEmpresa = firebase.firestore().collection("app");
   let keyLista = []
   let pedidoSelecionadoCliente;
   let pedidoSelecionadoFinalizarPedido;
+  let audio = new Audio();
+  audio.src = "audio/alerta.mp3"
+  audio.loop = true;
+  let audioAtivado = false;
 
 //Ouvinte
 
 bd.where("pedido_status", "==", "em andamento").onSnapshot(function (documentos) {
     documentos.docChanges().forEach(function (changes) {
       if (changes.type === "added") {
+
+        if(audioAtivado) {
+
+          audio.play();
+          $('#modalAlertaAudioPedido').modal();
+        }
 
         const doc = changes.doc;
         const dados = doc.data();
@@ -64,6 +63,10 @@ function criarItensTabala(dados) {
     colunaClienteNome.appendChild(document.createTextNode(dados.cliente_nome));
     colunaPedidoDados.appendChild(document.createTextNode(dados_pedido.replace(/<br>/g, "")));
     colunaPedidoHora.appendChild(document.createTextNode(dados.pedido_data));
+
+    colunaClienteNome.style = "text-align: left"
+    colunaPedidoDados.style = "text-align: left"
+    colunaPedidoHora.style = "text-align: left"
   
     ordemDecrescente()
     criarBotoesTabela(linha, dados);
@@ -91,18 +94,22 @@ function criarItensTabala(dados) {
     const buttonDetalhesPedido = document.createElement("button");
     buttonDetalhesPedido.innerHTML = `<i class="fas fa-eye"></i>`;
     buttonDetalhesPedido.className = "btn btn-success btn-xs";
+    buttonDetalhesPedido.style = "margin: auto; display: block;"
   
     const buttonDetalhesCliente = document.createElement("button");
     buttonDetalhesCliente.innerHTML = `<i class="fas fa-eye"></i>`;
     buttonDetalhesCliente.className = "btn btn-success btn-xs";
+    buttonDetalhesCliente.style = "margin: auto; display: block;"
 
     const buttonimprimir = document.createElement("button");
     buttonimprimir.innerHTML = `<i class="fas fa-print"></i>`;
     buttonimprimir.className = "btn btn-success btn-xs";
+    buttonimprimir.style = "margin: auto; display: block;"
 
     const buttonFinalizar = document.createElement("button");
     buttonFinalizar.innerHTML = `<i class="fas fa-check"></i>`;
     buttonFinalizar.className = "btn btn-danger btn-xs";
+    buttonFinalizar.style = "margin: auto; display: block;"
 
 
   
@@ -460,4 +467,81 @@ function ordemDecrescente() {
   }
 }
 
+
+
+//Abrir fechar empresa
+
+let estadoAtualEmpresa = false;
+
+bdEstadoEmpresa.doc("estadoempresa").onSnapshot(function(doc) {
+
+  estadoAtualEmpresa = doc.data().empresaaberta;
+
+  if(estadoAtualEmpresa) {
+
+    console.log("aberto")
+    document.getElementById("buttonEstadoEmpresa").innerHTML = '<i class="fas fa-door-closed"></i> Fechar Estabelecimento'
+    document.getElementById("buttonEstadoEmpresa").className = "btn btn-danger mb-1"
+
+  } else {
+    
+    console.log("fechado")
+    document.getElementById("buttonEstadoEmpresa").innerHTML = '<i class="fas fa-door-open"></i> Abri Estabelecimento'
+    document.getElementById("buttonEstadoEmpresa").className = "btn btn-primary mb-1"
+  }
+})
+
+
+function estadoEmpresa() {
+
+  let dados = {
+
+    empresaaberta: !estadoAtualEmpresa
+
+  }
+
+  bdEstadoEmpresa.doc("estadoempresa").set(dados).then(function() {
+
+    if(estadoAtualEmpresa) {
+
+      abrirModalAlerta("A empresa está aberta a partir de agora.")
+    } else {
+
+      abrirModalAlerta("A empresa está fechada a partir de agora.")
+    }
+  }).catch(function (error) {
+
+    abrirModalAlerta("Erro com o servidor")
+  });
+
+}
+
+
+//Ativar e desativar som de pedido
+
+
+
+
+function ativarSomPedido() {
+
+  if(audioAtivado) {
+
+    document.getElementById("buttonAtivarSomPedido").innerHTML = '<i class="fas fa-volume-mute"></i>'
+     
+  } else {
+
+    document.getElementById("buttonAtivarSomPedido").innerHTML = '<i class="fas fa-volume-up"></i>'    
+    
+  }
+
+  audioAtivado = !audioAtivado;
+
+}
+
+
+
+function pararAudioPedido() {
+
+  audio.pause();
+}
 

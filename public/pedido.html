@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -40,15 +41,13 @@
 
     <!-- Firebase -->
 
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+    <script src="/__/firebase/7.24.0/firebase-app.js"></script>
+    <script src="/__/firebase/7.24.0/firebase-analytics.js"></script>
+    <script src="/__/firebase/7.24.0/firebase-firestore.js"></script>
+    <script src="/__/firebase/7.24.0/firebase-storage.js"></script>
+    <script src="/__/firebase/7.24.0/firebase-auth.js"></script>
 
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-analytics.js"></script>
-
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-firestore.js"></script>
-
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-storage.js"></script>
-
-    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-auth.js"></script>
+    <script src="/__/firebase/init.js"></script>
 
     <script src="js/logado.js"></script>
 
@@ -69,7 +68,7 @@
                 <li class="treeview active">
                     <a href="pedido.html" aria-activedescendant="false" class="dropdown-toggle">
                         <i class="fas fa-home"></i>
-                        Home
+                        <span>Home</span> 
                     </a>
                 </li>
                 <!--Categoria-->
@@ -77,11 +76,12 @@
                     <a href="#categoriaSubmenu" data-toggle="collapse" aria-activedescendant="false"
                         class="dropdown-toggle">
                         <i class="fas fa-folder-open"></i>
-                        Categoria
+                        <span>Categoria</span> 
                     </a>
                     <ul class="collapse" id="categoriaSubmenu">
                         <li>
-                            <a href="categoria.html">Add Categoria</a>
+                            <p> <a href="categoria.html">Add Categoria</a></p>
+                            
                         </li>
                     </ul>
                 </li>
@@ -90,7 +90,7 @@
                     <a href="#adicionalSubmenu" data-toggle="collapse" aria-activedescendant="false"
                         class="dropdown-toggle">
                         <i class="fas fa-bacon"></i>
-                        Adicional
+                        <span>Adicional</span> 
                     </a>
                     <ul class="collapse list-unstyled" id="adicionalSubmenu">
                         <li>
@@ -103,7 +103,7 @@
                     <a href="#lancheSubmenu" data-toggle="collapse" aria-activedescendant="false"
                         class="dropdown-toggle">
                         <i class="fas fa-hamburger"></i>
-                        Lanche
+                        <span>Lanche</span> 
                     </a>
                     <ul class="collapse list-unstyled" id="lancheSubmenu">
                         <li>
@@ -115,7 +115,7 @@
                 <li class="treeview">
                     <a href="#appSubmenu" data-toggle="collapse" aria-activedescendant="false" class="dropdown-toggle">
                         <i class="fas fa-mobile-alt"></i>
-                        App
+                        <span>App</span> 
                     </a>
                     <ul class="collapse list-unstyled" id="appSubmenu">
                         <li>
@@ -131,7 +131,7 @@
                     <a href="#suporteSubmenu" data-toggle="collapse" aria-activedescendant="false"
                         class="dropdown-toggle">
                         <i class="fas fa-question"></i>
-                        Suporte
+                        <span>Suporte</span> 
                     </a>
                     <ul class="collapse list-unstyled" id="suporteSubmenu">
                         <li>
@@ -144,7 +144,7 @@
                     <a href="#deslogarSubmenu" data-toggle="collapse" aria-activedescendant="false"
                         class="dropdown-toggle">
                         <i class="fas fa-times"></i>
-                        Logout
+                        <span>Logout</span> 
                     </a>
                     <ul class="collapse list-unstyled" id="deslogarSubmenu">
                         <li>
@@ -163,16 +163,26 @@
                     <button type="button" id="sidebarCollapse" class="btn btn-info">
                         <i class="fas fa-align-left"></i>
                     </button>
-                    <div class="form-group">
-                        <p style="font-family: 'Lobster'; font-size: 35px; color: #448ed3"> Bem - Vindo</p>
+                    <div style="position: relative; width: 100%">
+                        <p style="text-align: center; font-family: 'Lobster'; font-size: 35px; color: #448ed3"> Bem - Vindo</p>
                     </div>
                     <br>
+
+                    <button id="buttonAtivarSomPedido" onclick="ativarSomPedido()" style="float: right;">
+                        <i class="fas fa-volume-mute"></i>
+                    </button>
                 </div>
             </nav>
 
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
                 <div class="container-fluid">
-                    <h4 style="font-family: 'Lobster'; color: #448ed3"> Pedidos</h4>
+                    <div>
+                        <h4 style="font-family: 'Lobster'; color: #448ed3"> Pedidos</h4>
+                    </div>
+                    <button id="buttonEstadoEmpresa" type="button" style="float: right;" class="btn btn-primary mb-1"
+                    onclick="estadoEmpresa()">
+                    
+                    </button>
                 </div>
             </nav>
             <!--Pesquisa-->
@@ -204,7 +214,7 @@
                             <th class="th-sm">Inf. Pedido</th>
                             <th class="th-sm">Inf. Cliente</th>
                             <th class="th-sm">Imprimir</th>
-                            <th class="th-sm">FInalizar</th>
+                            <th class="th-sm">Finalizar</th>
                         </tr>
                     </thead>
 
@@ -229,7 +239,7 @@
         <!--Detalhes Cliente-->
         <div class="modal fade" id="modalCliente" style="overflow-y:scroll" data-backdrop="static" role="dialog">
 
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <!--Cabeçalho-->
                     <div class="modal-header" style="padding: 35px 50px;">
@@ -237,20 +247,23 @@
                     </div>
                     <!--Corpo-->
                     <div class="modal-body" style="padding: 40px 50px;">
-                        <div class="form-group">
-                            <label><span class="glyphicon glyphicon-eye-open">Nome:</span></label>
-                            <label type="text" class="form-control" id="clienteNome"></label>
-                        </div>
-                        <div class="form-group">
-                            <label><span class="glyphicon glyphicon-eye-open">Endereço:</span></label>
-                            <label type="text" class="form-control" id="clienteEndereco"></label>
-                        </div>
-                        <div class="form-group">
-                            <label><span class="glyphicon glyphicon-eye-open">Contato:</span></label>
-                            <label type="text" class="form-control" id="clienteContato"></label>
-                        </div>
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label><span class="glyphicon glyphicon-eye-open">Nome:</span></label>
+                                    <label type="text" class="form-control" id="clienteNome"></label>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label><span class="glyphicon glyphicon-eye-open">Endereço:</span></label>
+                                    <label type="text" class="form-control" id="clienteEndereco"></label>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <label><span class="glyphicon glyphicon-eye-open">Contato:</span></label>
+                                    <label type="text" class="form-control" id="clienteContato"></label>
+                                </div>
                         
-                        
+                            </div>
+                        </form>
                         <!--Rodapé-->
                         <div class="modal-footer">
                             <button type="button" class="btn btn-danger btn-default" data-dismiss="modal">
@@ -280,7 +293,7 @@
             <!--Detalhes Pedido-->
             <div class="modal fade" id="modalPedido" style="overflow-y:scroll" data-backdrop="static" role="dialog">
 
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-xl">
                     <div class="modal-content">
                         <div class="modal-header" style="padding: 35px 50px;">
                             <h4 style="color: #448ed3;"> Dados Pedido</h4>
@@ -289,23 +302,33 @@
                         <!-----Corpo----->
 
                         <div class="modal-body" style="padding: 40px 50px;">
-                            <div class="form-group">
-                                <label><span class="glyphicon glyphicon-eye-open">ID:</span></label>
-                                <label type="text" class="form-control" id="pedidoId"></label>
-                            </div>
-                            <div class="form-group">
-                                <label><span class="glyphicon glyphicon-eye-open">Pedido:</span></label>
-                                <label type="text" style="height: auto;" class="form-control" id="pedidoDados"></label>
-                            </div>
-                            <div class="form-group">
-                                <label><span class="glyphicon glyphicon-eye-open">Dados Pagamento:</span></label>
-                                <label type="text" class="form-control" id="pedidoPagamento"></label>
-                            </div>
-                            <div class="form-group">
-                                <label><span class="glyphicon glyphicon-eye-open">Data e Hora:</span></label>
-                                <label type="text" class="form-control" id="pedidoData"></label>
-                            </div>
+                            <form>
+                                <div class="form-row">
+
+                                
+                                    <div class="form-group col-md-6">
+                                        <label><span class="glyphicon glyphicon-eye-open">ID:</span></label>
+                                        <label type="text" class="form-control" id="pedidoId"></label>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label><span class="glyphicon glyphicon-eye-open">Data e Hora:</span></label>
+                                        <label type="text" class="form-control" id="pedidoData"></label>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label><span class="glyphicon glyphicon-eye-open">Pedido:</span></label>
+                                        <label type="text" style="height: auto;" class="form-control" id="pedidoDados"></label>
+                                    </div>
+                                    <div class="form-group col-md-6">
+                                        <label><span class="glyphicon glyphicon-eye-open">Dados Pagamento:</span></label>
+                                        <label type="text" class="form-control" id="pedidoPagamento"></label>
+                                    </div>
+                                    
+
+                                </div>
+                            </form>
                         </div>
+
+
                         <!-----Rodapé----->
 
                         <div class="modal-footer">
@@ -380,6 +403,34 @@
 
                 </div>
             </div>
+            <!--Modal alerta audio Pedido-->
+            <div class="modal fade" id="modalAlertaAudioPedido" style="overflow-y:scroll" role="dialog">
+
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <!-------Cabeçalho-------->
+                        <div class="modal-header" style="padding: 35px 50px;">
+                            <h4 style="color: #448ed3;"> Alerta</h4>
+                        </div>
+
+                        <!-------Corpo-------->
+
+                        <div class="modal-body" style="padding: 40px 50px;">
+
+                            <label>Novo pedido recebido!</label>
+                        </div>
+
+                        <!-------Rodapé-------->
+
+                        <div class="modal-footer">
+                            <button onclick="pararAudioPedido()" type="button" class="btn btn-primary" data-dismiss="modal">
+                                Ok
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
             <!--Modal ProgressBar-->
             <div class="modal fade" id="modalProgress" tabindex="-1" role="dialog">
 
@@ -396,6 +447,9 @@
                     
                 </div>
             </div>
+            <script src="js/persistencia.js">
+                
+            </script>
             <script
                 src="js/pedido.js"></script>
             <script>
